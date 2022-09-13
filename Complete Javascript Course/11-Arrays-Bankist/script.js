@@ -80,6 +80,46 @@ const dispayMovements = function (movements) {
 
 dispayMovements(account1.movements);
 
+function createUserName(nameOfUsers) {
+  nameOfUsers.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+}
+
+const callDisplayBalance = function (movements) {
+  const balance = movements.reduce(function (acc, cur, i, array) {
+    return acc + cur;
+  }, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+
+callDisplayBalance(account1.movements);
+
+function calcDisplaySummary(movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const expense = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov);
+  labelSumOut.textContent = `${Math.abs(expense)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 0.012)
+    .filter(interests => interests > 1)
+    .reduce((acc, mov) => acc + mov);
+  labelSumInterest.textContent = `${interest}€`;
+}
+
+calcDisplaySummary(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -91,22 +131,3 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-/////////////////////////////////////////////////
-// // Challenge 1
-// function checkDogs(array1, array2) {
-//   let correctArray = [...array1];
-//   correctArray = correctArray.slice(1, -2);
-
-//   const bothData = [...correctArray, ...array2];
-//   console.log(bothData);
-
-//   bothData.forEach(function (age, i) {
-//     const adultMessage = age > 3 ? 'is an adult' : 'is still a puppy 🐶';
-//     console.log(`Dog number ${i + 1} ${adultMessage}\n.`);
-//   });
-// }
-
-// const JuliasDogs = [3, 5, 2, 12, 7];
-// const KatesDogs = [4, 1, 15, 8, 3];
-// checkDogs(JuliasDogs, KatesDogs);
