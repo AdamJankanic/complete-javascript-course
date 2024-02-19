@@ -65,29 +65,29 @@
 // const jessica = new PersonCl('Jessica', 1996);
 // console.log(jessica);
 
-class CarCl {
-  constructor(maker, speed) {
-    this.maker = maker;
-    this.speed = speed;
-  }
+// class CarCl {
+//   constructor(maker, speed) {
+//     this.maker = maker;
+//     this.speed = speed;
+//   }
 
-  get speedUs() {
-    console.log(this.speed / 1.6);
-    return this.speed / 1.6;
-  }
+//   get speedUs() {
+//     console.log(this.speed / 1.6);
+//     return this.speed / 1.6;
+//   }
 
-  set speedUs(speed) {
-    this.speed = speed * 1.6;
-  }
-}
+//   set speedUs(speed) {
+//     this.speed = speed * 1.6;
+//   }
+// }
 
-const ford = new CarCl('Ford', 100);
-console.log(ford);
+// const ford = new CarCl('Ford', 100);
+// console.log(ford);
 
-ford.speedUs;
-console.log(ford);
-ford.speedUs = 50;
-console.log(ford);
+// ford.speedUs;
+// console.log(ford);
+// ford.speedUs = 50;
+// console.log(ford);
 
 const Person = function (firstName, birthYear) {
   this.firstName = firstName;
@@ -137,30 +137,39 @@ miro.introduce();
 miro.calcAge();
 
 class Account {
+  locale = navigator.language;
+
+  #movements = [];
+  #pin;
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
-    this.movements = [];
-    this.locale = navigator.language;
+    this.#pin = pin;
+    // this._movements = [];
+    // this.locale = navigator.language;
 
     console.log(`Thank's ${owner}!`);
   }
 
+  getMovements() {
+    return this.#movements;
+  }
+
   deposit(value) {
-    this.movements.push(value);
+    this.#movements.push(value);
   }
 
   withdraw(value) {
     this.deposit(-value);
   }
 
-  approvedLoan(val) {
+  _approvedLoan(val) {
     return true;
   }
 
   requestLoan(value) {
-    if (this.approvedLoan) {
+    if (this._approvedLoan(value)) {
       this.deposit(value);
       console.log('Approved');
     }
@@ -171,3 +180,31 @@ const acc1 = new Account('Adam', 'eur', 1234);
 acc1.deposit(250);
 acc1.withdraw(140);
 console.log(acc1);
+
+class CarCl {
+  constructor(maker, speed) {
+    this.maker = maker;
+    this.speed = speed;
+  }
+
+  get speedUs() {
+    console.log(this.speed / 1.6);
+    return this.speed / 1.6;
+  }
+
+  set speedUs(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+class EVCl extends CarCl {
+  #charge;
+
+  accelerate() {
+    return this;
+  }
+
+  chargeBattery() {
+    return this;
+  }
+}
